@@ -1,5 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import UserProfile from './UserProfile';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -43,6 +44,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab, greetin
           Calendar
         </button>
       </nav>
+      <UserProfile />
     </div>
   );
 };
