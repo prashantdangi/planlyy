@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Brain, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -19,8 +19,9 @@ const HomePage = () => {
           <div className="flex h-16 items-center">
             <div className="flex-shrink-0">
               <div className="flex items-center">
-                <Brain className="h-8 w-8 text-blue-500" />
-                <span className="ml-2 text-xl font-medium text-gray-900">MindFlow</span>
+                <span className="text-2xl font-normal tracking-tight" style={{ fontFamily: "'Google Sans', 'Product Sans', 'Roboto', sans-serif" }}>
+                  Plan<span className="text-blue-500">lyy</span>
+                </span>
               </div>
             </div>
             <div className="flex-1 flex justify-center space-x-8">
@@ -34,8 +35,7 @@ const HomePage = () => {
                 onClick={() => login()}
                 className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-sm font-medium"
               >
-                Sign in
-                <img src="https://www.gstatic.com/images/branding/product/1x/google_2020q4_32dp.png" alt="Google" className="w-4 h-4 ml-2" />
+                Sign in with Google
               </button>
             </div>
           </div>
