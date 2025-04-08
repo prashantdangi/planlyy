@@ -2,15 +2,13 @@ import React from 'react';
 import { Plus, Search, Menu } from 'lucide-react';
 
 interface MainContentProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
   activeTab: string;
   notes: any[];
   emails: any[];
   events: any[];
 }
 
-const MainContent = ({ sidebarOpen, setSidebarOpen, activeTab, notes, emails, events }: MainContentProps) => {
+const MainContent = ({ activeTab, notes, emails, events }: MainContentProps) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'notes':
@@ -79,19 +77,11 @@ const MainContent = ({ sidebarOpen, setSidebarOpen, activeTab, notes, emails, ev
   };
 
   return (
-    <div className={`flex-1 ${sidebarOpen ? 'lg:pl-64' : ''} transition-all duration-300`}>
+    <div className="pl-64 flex-1 transition-all duration-300">
       {/* Top Bar */}
       <div className="bg-white shadow-sm">
-        <div className="flex items-center justify-between h-16 px-4">
-          <button 
-            onClick={() => setSidebarOpen(true)} 
-            className={`lg:hidden ${sidebarOpen ? 'hidden' : 'block'}`}
-          >
-            <Menu className="h-6 w-6 text-gray-500" />
-          </button>
-          <div className={`flex-1 flex justify-center transition-all duration-300 ${
-            sidebarOpen ? 'max-w-2xl' : 'max-w-3xl'
-          }`}>
+        <div className="flex items-center h-16 px-6">
+          <div className="flex-1 max-w-5xl">
             <div className="relative w-full max-w-2xl mt-2">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
@@ -101,35 +91,34 @@ const MainContent = ({ sidebarOpen, setSidebarOpen, activeTab, notes, emails, ev
               />
             </div>
           </div>
-          {/* Add some spacing on the right to balance the layout */}
-          <div className="w-6 lg:hidden"></div>
         </div>
       </div>
 
       {/* Main Layout with Content */}
-      <div className="h-[calc(100vh-4rem)]"> {/* Full height minus top bar */}
-        {/* Main Content Area with dynamic width and centering */}
+      <div className="h-[calc(100vh-4rem)]">
         <div className="h-full overflow-auto p-6">
-          <div className="max-w-5xl mx-auto transition-all duration-300" style={{ 
+          <div className="max-w-5xl transition-all duration-300" style={{ 
             width: '100%',
-            marginRight: 'auto',
-            marginLeft: 'auto',
-            paddingRight: '320px', // Default AI Panel width
+            paddingRight: '200px',
           }}>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col space-y-6">
               <h1 className="text-2xl font-medium text-gray-900">
                 {activeTab === 'notes' && 'My Notes'}
                 {activeTab === 'email' && 'Gmail'}
                 {activeTab === 'calendar' && 'Calendar'}
               </h1>
+              
               {activeTab === 'notes' && (
-                <button className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
-                  <Plus className="h-5 w-5 mr-1" />
-                  New Note
-                </button>
+                <div className="flex justify-end">
+                  <button className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+                    <Plus className="h-5 w-5 mr-1" />
+                    New Note
+                  </button>
+                </div>
               )}
+              
+              {renderContent()}
             </div>
-            {renderContent()}
           </div>
         </div>
       </div>

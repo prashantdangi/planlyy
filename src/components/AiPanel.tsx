@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState, useEffect, MouseEvent } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 import { Sparkles, Send } from 'lucide-react';
 
 interface Message {
@@ -15,39 +15,6 @@ interface AiPanelProps {
 
 const AiPanel = ({ aiPrompt, setAiPrompt, handleAiSubmit }: AiPanelProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [width, setWidth] = useState(320); // 320px = w-80
-  const [isResizing, setIsResizing] = useState(false);
-
-  const startResizing = (e: MouseEvent) => {
-    e.preventDefault();
-    setIsResizing(true);
-  };
-
-  const stopResizing = () => {
-    setIsResizing(false);
-  };
-
-  const resize = (e: MouseEvent) => {
-    if (isResizing) {
-      const newWidth = window.innerWidth - e.clientX;
-      // Set minimum and maximum width constraints
-      if (newWidth >= 280 && newWidth <= 800) { // min 280px, max 800px
-        setWidth(newWidth);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (isResizing) {
-      window.addEventListener('mousemove', resize as any);
-      window.addEventListener('mouseup', stopResizing);
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', resize as any);
-      window.removeEventListener('mouseup', stopResizing);
-    };
-  }, [isResizing]);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -71,7 +38,7 @@ const AiPanel = ({ aiPrompt, setAiPrompt, handleAiSubmit }: AiPanelProps) => {
     // Call the original handleAiSubmit
     handleAiSubmit(e);
     
-    // Simulate AI response (replace this with actual AI response handling)
+    // Simulate AI response
     const aiMessage: Message = {
       content: "This is a simulated AI response...",
       isUser: false,
@@ -83,17 +50,8 @@ const AiPanel = ({ aiPrompt, setAiPrompt, handleAiSubmit }: AiPanelProps) => {
   };
 
   return (
-    <div 
-      className="fixed right-0 top-0 h-screen flex"
-      style={{ width: `${width}px` }}
-    >
-      {/* Resize handle */}
-      <div
-        className="w-1 h-full cursor-ew-resize bg-gray-200 hover:bg-blue-500 transition-colors"
-        onMouseDown={startResizing}
-      />
-      
-      <div className="flex-1 bg-white shadow-sm p-4 h-full border-l border-gray-100 flex flex-col">
+    <div className="fixed right-0 top-0 h-screen w-[800px] bg-white shadow-sm border-l border-gray-100">
+      <div className="flex flex-col h-full p-4">
         <div className="flex items-center space-x-2 mb-4">
           <Sparkles className="h-5 w-5 text-blue-500" />
           <h2 className="text-lg font-medium">AI Assistant</h2>

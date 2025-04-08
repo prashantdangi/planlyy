@@ -6,7 +6,6 @@ import AiPanel from '../components/AiPanel';
 import { Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('notes');
   const [greeting, setGreeting] = useState('');
   const [aiPrompt, setAiPrompt] = useState('');
@@ -38,46 +37,24 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
-      <button 
-        onClick={() => setSidebarOpen(!sidebarOpen)} 
-        aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
-        aria-expanded={sidebarOpen}
-        className={`fixed top-4 z-50 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all duration-300 ${
-          sidebarOpen ? 'left-[240px]' : 'left-4'
-        }`}
-      >
-        {sidebarOpen ? <ChevronLeft className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
-
-      <div className={`flex flex-col transition-all duration-300 ${
-        sidebarOpen ? 'w-[256px]' : 'w-0'
-      }`}>
-        <Sidebar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          greeting={greeting}
-        />
-      </div>
+      <Sidebar 
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        greeting={greeting}
+      />
       
-      <div className="flex-1 flex">
-        <MainContent
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          activeTab={activeTab}
-          notes={notes}
-          emails={emails}
-          events={events}
-        />
-        <div className="fixed top-0 right-0 h-screen w-80">
-          <AiPanel
-            aiPrompt={aiPrompt}
-            setAiPrompt={setAiPrompt}
-            handleAiSubmit={handleAiSubmit}
-          />
-        </div>
-      </div>
+      <MainContent
+        activeTab={activeTab}
+        notes={notes}
+        emails={emails}
+        events={events}
+      />
+
+      <AiPanel
+        aiPrompt={aiPrompt}
+        setAiPrompt={setAiPrompt}
+        handleAiSubmit={handleAiSubmit}
+      />
     </div>
   );
 };
