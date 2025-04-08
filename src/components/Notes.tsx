@@ -30,17 +30,6 @@ const Notes = ({ notes }: NotesProps) => {
           className="w-full h-48 resize-none border-0 focus:ring-0 focus:outline-none text-gray-600 placeholder-gray-400"
         />
       </div>
-      
-      {/* Existing Notes Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {notes.map(note => (
-          <div key={note.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 border border-gray-100">
-            <h3 className="font-medium text-lg mb-2">{note.title}</h3>
-            <p className="text-gray-600 mb-3">{note.content}</p>
-            <span className="text-sm text-gray-400">{note.date}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
