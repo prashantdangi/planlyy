@@ -5,9 +5,13 @@ interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   greeting: string;
+  userName: string;
+  userEmail: string;
+  userPhotoUrl: string;
+  onSignOut: () => void;
 }
 
-const Sidebar = ({ activeTab, setActiveTab, greeting }: SidebarProps) => {
+const Sidebar = ({ activeTab, setActiveTab, greeting, userName, userEmail, userPhotoUrl, onSignOut }: SidebarProps) => {
   const demoNotes = [
     { id: 1, title: "Meeting Notes", preview: "Discuss project timeline..." },
     { id: 2, title: "Shopping List", preview: "Milk, eggs, bread..." },
@@ -29,7 +33,7 @@ const Sidebar = ({ activeTab, setActiveTab, greeting }: SidebarProps) => {
   return (
     <div className="fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg flex flex-col">
       <div className="flex items-center h-16 px-4 border-b">
-        <span className="text-xl font-medium text-gray-900">{greeting}, User</span>
+        <span className="text-xl font-medium text-gray-900">{greeting}, {userName}</span>
       </div>
       <nav className="flex-1 mt-4 overflow-y-auto">
         <button
@@ -90,7 +94,12 @@ const Sidebar = ({ activeTab, setActiveTab, greeting }: SidebarProps) => {
           </div>
         )}
       </nav>
-      <UserProfile />
+      <UserProfile
+        name={userName}
+        email={userEmail}
+        photoUrl={userPhotoUrl}
+        onSignOut={onSignOut}
+      />
     </div>
   );
 };
