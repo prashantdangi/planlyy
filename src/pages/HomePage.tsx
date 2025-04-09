@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
+import { supabase } from '../lib/supabase';
 import { ArrowRight } from 'lucide-react';
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const login = useGoogleLogin({
-    onSuccess: () => navigate('/dashboard'),
-    scope: 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly',
-  });
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        navigate('/dashboard');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          scopes: 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly'
+        }
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error signing in:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -32,7 +52,7 @@ const HomePage = () => {
             </div>
             <div className="flex-shrink-0">
               <button
-                onClick={() => login()}
+                onClick={handleLogin}
                 className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-sm font-medium"
               >
                 Sign in with Google
@@ -55,7 +75,7 @@ const HomePage = () => {
             </p>
             <div className="mt-8">
               <button
-                onClick={() => login()}
+                onClick={handleLogin}
                 className="inline-flex items-center px-6 py-3 shadow-sm text-base font-medium rounded-full text-white bg-blue-500 hover:bg-blue-600 transition-colors"
               >
                 Get Started <ArrowRight className="ml-2 h-5 w-5" />
@@ -145,7 +165,7 @@ const HomePage = () => {
                   ))}
                 </ul>
                 <button
-                  onClick={() => login()}
+                  onClick={handleLogin}
                   className="mt-8 w-full flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 transition-colors"
                 >
                   Get Started Free
@@ -188,7 +208,7 @@ const HomePage = () => {
                   ))}
                 </ul>
                 <button
-                  onClick={() => login()}
+                  onClick={handleLogin}
                   className="mt-8 w-full flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 transition-colors"
                 >
                   Upgrade to Pro
